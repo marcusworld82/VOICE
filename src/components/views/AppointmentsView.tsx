@@ -263,11 +263,17 @@ export default function AppointmentsView() {
                       <p className="text-xs text-gray-500 italic">{appointment.notes}</p>
                     )}
                     <div className="flex items-center space-x-2 mt-3">
-                      <button className="btn-primary text-xs">
+                      <button 
+                        onClick={() => console.log('Confirm appointment for:', appointment.client.name)}
+                        className="btn-primary text-xs"
+                      >
                         <CheckCircle className="w-3 h-3 mr-1" />
                         Confirm
                       </button>
-                      <button className="btn-secondary text-xs">
+                      <button 
+                        onClick={() => console.log('Reschedule appointment for:', appointment.client.name)}
+                        className="btn-secondary text-xs"
+                      >
                         <AlertCircle className="w-3 h-3 mr-1" />
                         Reschedule
                       </button>
@@ -317,7 +323,10 @@ export default function AppointmentsView() {
             <p className="text-sm text-gray-600 mb-3">
               Appointments are automatically synced with your Google Calendar in real-time.
             </p>
-            <button className="btn-secondary text-sm w-full">
+            <button 
+              onClick={() => window.location.href = '/integrations'}
+              className="btn-secondary text-sm w-full"
+            >
               Configure Sync Settings
             </button>
           </div>
