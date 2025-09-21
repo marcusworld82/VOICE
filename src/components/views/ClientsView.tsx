@@ -143,6 +143,12 @@ export default function ClientsView() {
             <Download className="w-4 h-4" />
             <span>Export CSV</span>
           </button>
+          <button 
+            onClick={() => window.location.href = '/integrations'}
+            className="btn-secondary flex items-center space-x-2"
+          >
+            <span>Integrations</span>
+          </button>
           <button className="btn-primary flex items-center space-x-2">
             <Plus className="w-4 h-4" />
             <span>Add Client</span>
@@ -373,8 +379,18 @@ export default function ClientsView() {
               </div>
 
               <div className="space-y-2">
-                <button className="btn-primary w-full">Schedule Appointment</button>
-                <button className="btn-secondary w-full">Send Message</button>
+                <button 
+                  onClick={() => console.log('Schedule Appointment clicked for:', selectedClient.name)}
+                  className="btn-primary w-full"
+                >
+                  Schedule Appointment
+                </button>
+                <button 
+                  onClick={() => console.log('Send Message clicked for:', selectedClient.name)}
+                  className="btn-secondary w-full"
+                >
+                  Send Message
+                </button>
               </div>
             </div>
           ) : (

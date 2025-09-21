@@ -3,7 +3,6 @@ export default function SettingsFab(){
   return (
     <div style={{position:"fixed", right:16, bottom:16, display:"flex", gap:8}}>
       <a href="/setup" style={btn}>Setup</a>
-      <a href="/integrations" style={btn}>Integrations</a>
     </div>
   );
 }
