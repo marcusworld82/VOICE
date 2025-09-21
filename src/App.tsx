@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { DashboardProvider } from './context/DashboardContext';
 import LoginScreen from './components/auth/LoginScreen';
 import MainLayout from './components/layout/MainLayout';
 import { useAuth } from './hooks/useAuth';
 import SettingsFab from "./components/SettingsFab";
+import Setup from './pages/Setup';
+import Integrations from './pages/Integrations';
 
 function AppContent() {
   const { user, loading } = useAuth();
@@ -25,12 +28,24 @@ function AppContent() {
   return user ? <MainLayout /> : <LoginScreen />;
 }
 
+function AppWithRouting() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/setup" element={<Setup />} />
+        <Route path="/integrations" element={<Integrations />} />
+        <Route path="/*" element={<AppContent />} />
+      </Routes>
+      <SettingsFab />
+    </BrowserRouter>
+  );
+}
+
 function App() {
   return (
     <AuthProvider>
       <DashboardProvider>
-        <AppContent />
-        <SettingsFab />
+        <AppWithRouting />
       </DashboardProvider>
     </AuthProvider>
   );
