@@ -282,7 +282,10 @@ Remember: Keep responses natural, professional, and focused on helping the calle
                   <span>{showPrompt ? 'Hide' : 'Show'} Prompt</span>
                 </button>
                 <button
-                  onClick={saveConfiguration}
+                  onClick={() => {
+                    saveConfiguration();
+                    alert('Voice agent configuration saved!');
+                  }}
                   className="btn-primary flex items-center space-x-2"
                 >
                   <Save className="w-4 h-4" />
