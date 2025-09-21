@@ -18,7 +18,7 @@ export default function Integrations(){
       </form>
       <div style={{marginTop:16}}>
         <div><b>Retell webhook (format):</b> <code>{`${placeholderBackend}/retell-hook?tenant=${tenantSlug||"<slug>"}`}</code></div>
-        <div><b>n8n webhook (format):</b> <code>{\`\`${placeholderBackend}/n8n-hook?tenant=${tenantSlug||"<slug>"}\``}</code></div>
+        <div><b>n8n webhook (format):</b> <code>{\`${placeholderBackend}/n8n-hook?tenant=${tenantSlug||"<slug>"}`}</code></div>
       </div>
     </div>
   );
