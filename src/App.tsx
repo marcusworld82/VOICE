@@ -4,6 +4,7 @@ import { DashboardProvider } from './context/DashboardContext';
 import LoginScreen from './components/auth/LoginScreen';
 import MainLayout from './components/layout/MainLayout';
 import { useAuth } from './hooks/useAuth';
+import SettingsFab from "./components/SettingsFab";
 
 function AppContent() {
   const { user, loading } = useAuth();
@@ -29,6 +30,7 @@ function App() {
     <AuthProvider>
       <DashboardProvider>
         <AppContent />
+        <SettingsFab />
       </DashboardProvider>
     </AuthProvider>
   );
