@@ -194,20 +194,25 @@ export default function CEODashboardView() {
                   activity.status === 'sent' || activity.status === 'delivered' ? 'status-info' :
                   'status-error'
                 }`}>
-                <button 
-                  onClick={() => console.log('Week view selected')}
-                  className="btn-secondary text-sm"
-                >
-                  Week
-                </button>
-                <button 
-                  onClick={() => console.log('Month view selected')}
-                  className="btn-primary text-sm"
-                >
-                  Month
-                </button>
+                  {activity.status}
+                </span>
               </div>
             ))}
+          </div>
+          
+          <div className="mt-6 flex items-center space-x-2">
+            <button 
+              onClick={() => console.log('Week view selected')}
+              className="btn-secondary text-sm"
+            >
+              Week
+            </button>
+            <button 
+              onClick={() => console.log('Month view selected')}
+              className="btn-primary text-sm"
+            >
+              Month
+            </button>
           </div>
         </div>
       </div>
