@@ -147,6 +147,11 @@ export default function ClientsView() {
           <button 
             onClick={() => window.location.href = '/integrations'}
             className="btn-secondary flex items-center space-x-2"
+          >
+            <span>Integrations</span>
+          </button>
+          <button 
+            onClick={() => {
               // In a real app, this would open a modal or form
               // For now, we'll simulate creating a client
               const newClient = {
@@ -162,10 +167,9 @@ export default function ClientsView() {
                 notes: 'New client added from dashboard'
               };
               webhookService.sendClientCreated(newClient);
+            }}
+            className="btn-primary flex items-center space-x-2"
           >
-            <span>Integrations</span>
-          </button>
-          <button className="btn-primary flex items-center space-x-2">
             <Plus className="w-4 h-4" />
             <span>Add Client</span>
           </button>
@@ -396,8 +400,8 @@ export default function ClientsView() {
 
               <div className="space-y-2">
                 <button 
-                  onClick={() => console.log('Schedule Appointment clicked for:', selectedClient.name)}
-                  className="btn-primary w-full"
+                  onClick={() => {
+                    console.log('Schedule Appointment clicked for:', selectedClient.name);
                     const newAppointment = {
                       id: Date.now().toString(),
                       client: {
@@ -412,10 +416,14 @@ export default function ClientsView() {
                       notes: `Appointment scheduled for ${selectedClient.name}`
                     };
                     webhookService.sendAppointmentBooked(newAppointment);
+                  }}
+                  className="btn-primary w-full"
                 >
                   Schedule Appointment
                 </button>
                 <button 
+                  onClick={() => {
+                    console.log('Send Message clicked for:', selectedClient.name);
                     // In a real app, this would trigger SMS/email
                     // For now, we'll send a follow-up event
                     const followUp = {
@@ -430,7 +438,7 @@ export default function ClientsView() {
                       nextAction: 'Manual message sent from dashboard'
                     };
                     webhookService.sendFollowUpTriggered(followUp);
-                  onClick={() => console.log('Send Message clicked for:', selectedClient.name)}
+                  }}
                   className="btn-secondary w-full"
                 >
                   Send Message

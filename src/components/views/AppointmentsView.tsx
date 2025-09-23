@@ -121,8 +121,8 @@ export default function AppointmentsView() {
           </div>
           
           <button 
-            onClick={() => console.log('New Appointment clicked')}
-            className="btn-primary flex items-center space-x-2"
+            onClick={() => {
+              console.log('New Appointment clicked');
               // In a real app, this would open a modal or form
               // For now, we'll simulate creating an appointment
               const newAppointment = {
@@ -135,6 +135,8 @@ export default function AppointmentsView() {
                 notes: 'New appointment created from dashboard'
               };
               webhookService.sendAppointmentBooked(newAppointment);
+            }}
+            className="btn-primary flex items-center space-x-2"
           >
             <Plus className="w-4 h-4" />
             <span>New Appointment</span>
@@ -277,22 +279,26 @@ export default function AppointmentsView() {
                     )}
                     <div className="flex items-center space-x-2 mt-3">
                       <button 
-                        onClick={() => console.log('Confirm appointment for:', appointment.client.name)}
-                        className="btn-primary text-xs"
+                        onClick={() => {
+                          console.log('Confirm appointment for:', appointment.client.name);
                           const confirmedAppointment = { ...appointment, status: 'confirmed' as const };
                           webhookService.sendAppointmentConfirmed(confirmedAppointment);
+                        }}
+                        className="btn-primary text-xs"
                       >
                         <CheckCircle className="w-3 h-3 mr-1" />
                         Confirm
                       </button>
                       <button 
+                        onClick={() => {
+                          console.log('Reschedule appointment for:', appointment.client.name);
                           const oldDateTime = appointment.datetime;
                           const rescheduledAppointment = { 
                             ...appointment, 
                             datetime: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString() // Next day
                           };
                           webhookService.sendAppointmentRescheduled(rescheduledAppointment, oldDateTime);
-                        onClick={() => console.log('Reschedule appointment for:', appointment.client.name)}
+                        }}
                         className="btn-secondary text-xs"
                       >
                         <AlertCircle className="w-3 h-3 mr-1" />
