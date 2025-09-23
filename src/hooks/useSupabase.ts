@@ -2,6 +2,10 @@ import { useEffect, useState } from 'react';
 import { supabase } from '../lib/supabase';
 import { loadConfig } from '../lib/config';
 
+// Get environment variables
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+
 export function useSupabase() {
   const [isConnected, setIsConnected] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -10,18 +14,35 @@ export function useSupabase() {
   useEffect(() => {
     const checkConnection = async () => {
       try {
+        // Check if environment variables are available
+        if (!supabaseUrl || !supabaseAnonKey) {
+          console.warn('Supabase environment variables not configured');
+          setIsConnected(false);
+          setLoading(false);
+          return;
+        }
+
         // Set tenant context for RLS
         if (tenantSlug) {
-          await supabase.rpc('set_config', {
-            setting_name: 'app.current_tenant',
-            setting_value: tenantSlug,
-            is_local: true
-          });
+          try {
+            await supabase.rpc('set_config', {
+              setting_name: 'app.current_tenant',
+              setting_value: tenantSlug,
+              is_local: true
+            });
+          } catch (rpcError) {
+            console.warn('RLS context setting failed:', rpcError);
+            // Continue anyway - this might not be critical
+          }
         }
 
         // Test connection
         const { error } = await supabase.from('config').select('count').limit(1);
         setIsConnected(!error);
+        
+        if (error) {
+          console.error('Supabase connection test failed:', error);
+        }
       } catch (error) {
         console.error('Supabase connection error:', error);
         setIsConnected(false);
@@ -31,7 +52,7 @@ export function useSupabase() {
     };
 
     checkConnection();
-  }, [tenantSlug]);
+  }, [tenantSlug, supabaseUrl, supabaseAnonKey]);
 
   return { isConnected, loading, tenantSlug };
 }

@@ -122,19 +122,23 @@ export default function AppointmentsView() {
           
           <button 
             onClick={() => {
-              console.log('New Appointment clicked');
-              // In a real app, this would open a modal or form
-              // For now, we'll simulate creating an appointment
-              const newAppointment = {
-                id: Date.now().toString(),
-                client: { name: 'New Client', phone: '+1 (555) 000-0000', email: 'new@email.com' },
-                service: 'Consultation',
-                datetime: new Date().toISOString(),
-                duration: 60,
-                status: 'scheduled' as const,
-                notes: 'New appointment created from dashboard'
-              };
-              webhookService.sendAppointmentBooked(newAppointment);
+              try {
+                console.log('New Appointment clicked');
+                // In a real app, this would open a modal or form
+                // For now, we'll simulate creating an appointment
+                const newAppointment = {
+                  id: Date.now().toString(),
+                  client: { name: 'New Client', phone: '+1 (555) 000-0000', email: 'new@email.com' },
+                  service: 'Consultation',
+                  datetime: new Date().toISOString(),
+                  duration: 60,
+                  status: 'scheduled' as const,
+                  notes: 'New appointment created from dashboard'
+                };
+                webhookService.sendAppointmentBooked(newAppointment);
+              } catch (error) {
+                console.error('Failed to create appointment:', error);
+              }
             }}
             className="btn-primary flex items-center space-x-2"
           >

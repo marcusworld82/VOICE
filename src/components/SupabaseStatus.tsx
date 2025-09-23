@@ -14,6 +14,20 @@ export default function SupabaseStatus() {
     );
   }
 
+  // Check if environment variables are missing
+  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+  const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+  
+  if (!supabaseUrl || !supabaseKey) {
+    return (
+      <div className="flex items-center space-x-2 px-3 py-2 bg-yellow-100 text-yellow-800 rounded-lg">
+        <Database className="w-4 h-4" />
+        <AlertCircle className="w-4 h-4" />
+        <span className="text-sm font-medium">Supabase Not Configured</span>
+      </div>
+    );
+  }
+
   return (
     <div className={`flex items-center space-x-2 px-3 py-2 rounded-lg ${
       isConnected 

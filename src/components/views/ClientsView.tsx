@@ -152,21 +152,25 @@ export default function ClientsView() {
           </button>
           <button 
             onClick={() => {
-              // In a real app, this would open a modal or form
-              // For now, we'll simulate creating a client
-              const newClient = {
-                id: Date.now().toString(),
-                name: 'New Client',
-                phone: '+1 (555) 000-0000',
-                email: 'newclient@email.com',
-                status: 'prospect' as const,
-                tags: ['New Lead'],
-                totalAppointments: 0,
-                totalSpent: 0,
-                lastContact: new Date().toISOString().split('T')[0],
-                notes: 'New client added from dashboard'
-              };
-              webhookService.sendClientCreated(newClient);
+              try {
+                // In a real app, this would open a modal or form
+                // For now, we'll simulate creating a client
+                const newClient = {
+                  id: Date.now().toString(),
+                  name: 'New Client',
+                  phone: '+1 (555) 000-0000',
+                  email: 'newclient@email.com',
+                  status: 'prospect' as const,
+                  tags: ['New Lead'],
+                  totalAppointments: 0,
+                  totalSpent: 0,
+                  lastContact: new Date().toISOString().split('T')[0],
+                  notes: 'New client added from dashboard'
+                };
+                webhookService.sendClientCreated(newClient);
+              } catch (error) {
+                console.error('Failed to create client:', error);
+              }
             }}
             className="btn-primary flex items-center space-x-2"
           >
