@@ -5,6 +5,7 @@ import LoginScreen from './components/auth/LoginScreen';
 import MainLayout from './components/layout/MainLayout';
 import { useAuth } from './hooks/useAuth';
 import SettingsFab from "./components/SettingsFab";
+import SupabaseStatus from './components/SupabaseStatus';
 
 function AppContent() {
   const { user, loading } = useAuth();
@@ -31,6 +32,9 @@ function App() {
       <DashboardProvider>
         <AppContent />
         <SettingsFab />
+        <div className="fixed top-4 right-4 z-50">
+          <SupabaseStatus />
+        </div>
       </DashboardProvider>
     </AuthProvider>
   );

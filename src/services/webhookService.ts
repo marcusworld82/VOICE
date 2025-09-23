@@ -118,6 +118,22 @@ class WebhookService {
 
   // Call Events
   async sendCallCompleted(callData: CallData): Promise<boolean> {
+    // Save to Supabase
+    try {
+      await dbService.createCall({
+        type: callData.type,
+        caller_name: callData.caller.name,
+        caller_phone: callData.caller.phone,
+        duration: callData.duration,
+        status: callData.status,
+        timestamp: callData.timestamp,
+        transcript: callData.transcript,
+        recording_url: callData.recording
+      });
+    } catch (error) {
+      console.error('Failed to save call to Supabase:', error);
+    }
+
     const payload: WebhookPayload = {
       event: 'call.completed',
       timestamp: new Date().toISOString(),
@@ -158,6 +174,22 @@ class WebhookService {
 
   // Appointment Events
   async sendAppointmentBooked(appointmentData: AppointmentData): Promise<boolean> {
+    // Save to Supabase
+    try {
+      await dbService.createAppointment({
+        client_name: appointmentData.client.name,
+        client_phone: appointmentData.client.phone,
+        client_email: appointmentData.client.email,
+        service: appointmentData.service,
+        datetime: appointmentData.datetime,
+        duration: appointmentData.duration,
+        status: appointmentData.status,
+        notes: appointmentData.notes
+      });
+    } catch (error) {
+      console.error('Failed to save appointment to Supabase:', error);
+    }
+
     const payload: WebhookPayload = {
       event: 'appointment.booked',
       timestamp: new Date().toISOString(),
@@ -222,6 +254,23 @@ class WebhookService {
 
   // Client Events
   async sendClientCreated(clientData: ClientData): Promise<boolean> {
+    // Save to Supabase
+    try {
+      await dbService.createClient({
+        name: clientData.name,
+        phone: clientData.phone,
+        email: clientData.email,
+        status: clientData.status,
+        tags: clientData.tags,
+        total_appointments: clientData.totalAppointments,
+        total_spent: clientData.totalSpent,
+        last_contact: clientData.lastContact,
+        notes: clientData.notes
+      });
+    } catch (error) {
+      console.error('Failed to save client to Supabase:', error);
+    }
+
     const payload: WebhookPayload = {
       event: 'client.created',
       timestamp: new Date().toISOString(),
@@ -259,6 +308,22 @@ class WebhookService {
 
   // Follow-up Events
   async sendFollowUpTriggered(followUpData: FollowUpData): Promise<boolean> {
+    // Save to Supabase
+    try {
+      await dbService.createFollowUp({
+        client_name: followUpData.client,
+        client_phone: followUpData.phone,
+        client_email: followUpData.email,
+        last_contact: followUpData.lastContact,
+        hours_elapsed: followUpData.hoursElapsed,
+        status: followUpData.status,
+        type: followUpData.type,
+        next_action: followUpData.nextAction
+      });
+    } catch (error) {
+      console.error('Failed to save follow-up to Supabase:', error);
+    }
+
     const payload: WebhookPayload = {
       event: 'followup.triggered',
       timestamp: new Date().toISOString(),
@@ -382,4 +447,5 @@ class WebhookService {
 }
 
 export const webhookService = new WebhookService();
+import { dbService } from '../hooks/useSupabase';
 export type { CallData, AppointmentData, ClientData, FollowUpData, WebhookPayload };
