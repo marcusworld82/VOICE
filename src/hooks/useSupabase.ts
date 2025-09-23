@@ -20,7 +20,7 @@ export function useSupabase() {
         }
 
         // Test connection
-        const { error } = await supabase.from('business_config').select('count').limit(1);
+        const { error } = await supabase.from('config').select('count').limit(1);
         setIsConnected(!error);
       } catch (error) {
         console.error('Supabase connection error:', error);
@@ -166,7 +166,7 @@ export const dbService = {
   async getBusinessConfig() {
     const { tenantSlug } = loadConfig();
     const { data, error } = await supabase
-      .from('business_config')
+      .from('config')
       .select('*')
       .eq('tenant_slug', tenantSlug)
       .single();
@@ -178,7 +178,7 @@ export const dbService = {
   async upsertBusinessConfig(configData: any) {
     const { tenantSlug } = loadConfig();
     const { data, error } = await supabase
-      .from('business_config')
+      .from('config')
       .upsert({ ...configData, tenant_slug: tenantSlug })
       .select()
       .single();

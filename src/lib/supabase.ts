@@ -82,7 +82,7 @@ export interface Database {
         Insert: Omit<Database['public']['Tables']['follow_ups']['Row'], 'id' | 'created_at'>;
         Update: Partial<Database['public']['Tables']['follow_ups']['Insert']>;
       };
-      business_config: {
+      config: {
         Row: {
           id: string;
           tenant_slug: string;
@@ -96,8 +96,8 @@ export interface Database {
           created_at: string;
           updated_at: string;
         };
-        Insert: Omit<Database['public']['Tables']['business_config']['Row'], 'id' | 'created_at' | 'updated_at'>;
-        Update: Partial<Database['public']['Tables']['business_config']['Insert']>;
+        Insert: Omit<Database['public']['Tables']['config']['Row'], 'id' | 'created_at' | 'updated_at'>;
+        Update: Partial<Database['public']['Tables']['config']['Insert']>;
       };
     };
   };
