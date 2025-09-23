@@ -11,7 +11,15 @@ export default function VoiceAgentConfig() {
     averageServicePrice: businessConfig.averageServicePrice || 100,
     businessHours: '9 AM - 5 PM, Monday - Friday',
     businessLocation: '123 Main Street, City, State',
+    supportEmails: ['admin@teamhmwwins.com', 'bh@teamhmwwins.com'],
+    appointmentDuration: 60,
+    advanceBookingMinHours: 24,
+    advanceBookingMaxDays: 30,
     emergencyProtocol: 'Transfer to human staff immediately',
+    paymentPolicy: 'Initial consultation fees disclosed upfront',
+    cancellationPolicy: 'At least 24 hours notice required',
+    freeConsultationOffered: true,
+    contactFormUrl: 'https://teamhmwwins.com/contact',
     faqList: [
       {
         question: 'What are your hours?',
@@ -204,6 +212,62 @@ Remember: Keep responses natural, professional, and focused on helping the calle
             />
           </div>
 
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                Support Emails
+              </label>
+              <input
+                type="text"
+                value={agentConfig.supportEmails.join(', ')}
+                onChange={(e) => setAgentConfig(prev => ({ 
+                  ...prev, 
+                  supportEmails: e.target.value.split(',').map(email => email.trim()) 
+                }))}
+                className="w-full px-4 py-2 bg-black/30 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20"
+                placeholder="admin@example.com, support@example.com"
+              />
+            </div>
+            
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                Appointment Duration (minutes)
+              </label>
+              <input
+                type="number"
+                value={agentConfig.appointmentDuration}
+                onChange={(e) => setAgentConfig(prev => ({ ...prev, appointmentDuration: parseInt(e.target.value) || 60 }))}
+                className="w-full px-4 py-2 bg-black/30 border border-gray-600 rounded-lg text-white focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20"
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                Min Advance Booking (hours)
+              </label>
+              <input
+                type="number"
+                value={agentConfig.advanceBookingMinHours}
+                onChange={(e) => setAgentConfig(prev => ({ ...prev, advanceBookingMinHours: parseInt(e.target.value) || 24 }))}
+                className="w-full px-4 py-2 bg-black/30 border border-gray-600 rounded-lg text-white focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20"
+              />
+            </div>
+            
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                Max Advance Booking (days)
+              </label>
+              <input
+                type="number"
+                value={agentConfig.advanceBookingMaxDays}
+                onChange={(e) => setAgentConfig(prev => ({ ...prev, advanceBookingMaxDays: parseInt(e.target.value) || 30 }))}
+                className="w-full px-4 py-2 bg-black/30 border border-gray-600 rounded-lg text-white focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20"
+              />
+            </div>
+          </div>
+
           <div>
             <label className="block text-sm font-medium text-gray-300 mb-2">
               Emergency Protocol
@@ -215,6 +279,65 @@ Remember: Keep responses natural, professional, and focused on helping the calle
               className="w-full px-4 py-2 bg-black/30 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20"
               placeholder="e.g., Transfer to human staff immediately"
             />
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                Payment Policy
+              </label>
+              <input
+                type="text"
+                value={agentConfig.paymentPolicy}
+                onChange={(e) => setAgentConfig(prev => ({ ...prev, paymentPolicy: e.target.value }))}
+                className="w-full px-4 py-2 bg-black/30 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20"
+                placeholder="e.g., Initial consultation fees disclosed upfront"
+              />
+            </div>
+            
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                Cancellation Policy
+              </label>
+              <input
+                type="text"
+                value={agentConfig.cancellationPolicy}
+                onChange={(e) => setAgentConfig(prev => ({ ...prev, cancellationPolicy: e.target.value }))}
+                className="w-full px-4 py-2 bg-black/30 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20"
+                placeholder="e.g., At least 24 hours notice required"
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                Contact Form URL
+              </label>
+              <input
+                type="url"
+                value={agentConfig.contactFormUrl}
+                onChange={(e) => setAgentConfig(prev => ({ ...prev, contactFormUrl: e.target.value }))}
+                className="w-full px-4 py-2 bg-black/30 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20"
+                placeholder="https://example.com/contact"
+              />
+            </div>
+            
+            <div className="flex items-center space-x-3">
+              <label className="block text-sm font-medium text-gray-300">
+                Free Consultation Offered
+              </label>
+              <button
+                onClick={() => setAgentConfig(prev => ({ ...prev, freeConsultationOffered: !prev.freeConsultationOffered }))}
+                className={`w-12 h-6 rounded-full transition-colors ${
+                  agentConfig.freeConsultationOffered ? 'bg-green-500' : 'bg-gray-600'
+                }`}
+              >
+                <div className={`w-4 h-4 bg-white rounded-full transition-transform ${
+                  agentConfig.freeConsultationOffered ? 'translate-x-7' : 'translate-x-1'
+                }`} style={{ marginTop: '2px' }} />
+              </button>
+            </div>
           </div>
         </div>
 

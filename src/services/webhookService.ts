@@ -256,19 +256,24 @@ class WebhookService {
   async sendClientCreated(clientData: ClientData): Promise<boolean> {
     // Save to Supabase
     try {
-      await dbService.createClient({
+      // Use contacts table for HMW Law retail AI
+      await dbService.createContact({
         name: clientData.name,
+        full_name: clientData.name,
         phone: clientData.phone,
         email: clientData.email,
         status: clientData.status,
         tags: clientData.tags,
-        total_appointments: clientData.totalAppointments,
-        total_spent: clientData.totalSpent,
-        last_contact: clientData.lastContact,
-        notes: clientData.notes
+        first_seen_at: new Date().toISOString(),
+        last_seen_at: clientData.lastContact,
+        // HMW Law specific fields
+        legal_matter_type: null, // Will be set by retail AI
+        urgency_level: 'medium', // Default urgency
+        insurance_provider: null,
+        questions_concerns: clientData.notes
       });
     } catch (error) {
-      console.error('Failed to save client to Supabase:', error);
+      console.error('Failed to save contact to Supabase:', error);
     }
 
     const payload: WebhookPayload = {
