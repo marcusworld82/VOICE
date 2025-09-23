@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Phone, PhoneCall, Clock, User, FileText, Play, Pause } from 'lucide-react';
+import { webhookService } from '../../services/webhookService';
 
 interface Call {
   id: string;
@@ -18,6 +19,22 @@ interface Call {
 export default function CallTracking() {
   const [selectedCall, setSelectedCall] = useState<Call | null>(null);
   const [playingRecording, setPlayingRecording] = useState<string | null>(null);
+
+  // Send webhook for call events when they occur
+  React.useEffect(() => {
+    // Simulate sending webhook for completed calls
+    const completedCalls = calls.filter(call => call.status === 'completed');
+    completedCalls.forEach(call => {
+      // In a real app, this would be triggered when the call actually completes
+      // For demo purposes, we're just showing how it would work
+    });
+
+    // Simulate sending webhook for missed calls
+    const missedCalls = calls.filter(call => call.status === 'missed');
+    missedCalls.forEach(call => {
+      // webhookService.sendCallMissed(call);
+    });
+  }, []);
 
   // Mock call data
   const calls: Call[] = [

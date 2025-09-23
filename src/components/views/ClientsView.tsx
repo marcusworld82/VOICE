@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Users, Search, Download, Plus, Phone, Mail, Tag, Filter, Eye } from 'lucide-react';
+import { webhookService } from '../../services/webhookService';
 
 interface Client {
   id: string;
@@ -146,6 +147,21 @@ export default function ClientsView() {
           <button 
             onClick={() => window.location.href = '/integrations'}
             className="btn-secondary flex items-center space-x-2"
+              // In a real app, this would open a modal or form
+              // For now, we'll simulate creating a client
+              const newClient = {
+                id: Date.now().toString(),
+                name: 'New Client',
+                phone: '+1 (555) 000-0000',
+                email: 'newclient@email.com',
+                status: 'prospect' as const,
+                tags: ['New Lead'],
+                totalAppointments: 0,
+                totalSpent: 0,
+                lastContact: new Date().toISOString().split('T')[0],
+                notes: 'New client added from dashboard'
+              };
+              webhookService.sendClientCreated(newClient);
           >
             <span>Integrations</span>
           </button>
@@ -382,10 +398,38 @@ export default function ClientsView() {
                 <button 
                   onClick={() => console.log('Schedule Appointment clicked for:', selectedClient.name)}
                   className="btn-primary w-full"
+                    const newAppointment = {
+                      id: Date.now().toString(),
+                      client: {
+                        name: selectedClient.name,
+                        phone: selectedClient.phone,
+                        email: selectedClient.email
+                      },
+                      service: 'Consultation',
+                      datetime: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(), // Tomorrow
+                      duration: 60,
+                      status: 'scheduled' as const,
+                      notes: `Appointment scheduled for ${selectedClient.name}`
+                    };
+                    webhookService.sendAppointmentBooked(newAppointment);
                 >
                   Schedule Appointment
                 </button>
                 <button 
+                    // In a real app, this would trigger SMS/email
+                    // For now, we'll send a follow-up event
+                    const followUp = {
+                      id: Date.now().toString(),
+                      client: selectedClient.name,
+                      phone: selectedClient.phone,
+                      email: selectedClient.email,
+                      lastContact: new Date().toISOString(),
+                      hoursElapsed: 0,
+                      status: 'sent' as const,
+                      type: 'follow-up-call' as const,
+                      nextAction: 'Manual message sent from dashboard'
+                    };
+                    webhookService.sendFollowUpTriggered(followUp);
                   onClick={() => console.log('Send Message clicked for:', selectedClient.name)}
                   className="btn-secondary w-full"
                 >

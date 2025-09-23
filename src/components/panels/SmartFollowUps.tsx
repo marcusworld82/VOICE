@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Clock, Bell, Users, Settings, Play, Pause } from 'lucide-react';
+import { webhookService } from '../../services/webhookService';
 
 interface FollowUp {
   id: string;
@@ -91,7 +92,12 @@ export default function SmartFollowUps() {
 
   const triggerFollowUp = (followUpId: string) => {
     console.log(`Triggering follow-up for ${followUpId}`);
-    // In real implementation, this would trigger the n8n workflow
+    
+    // Find the follow-up data and send webhook
+    const followUp = followUps.find(f => f.id === followUpId);
+    if (followUp) {
+      webhookService.sendFollowUpTriggered(followUp);
+    }
   };
 
   return (

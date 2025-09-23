@@ -238,6 +238,15 @@ Remember: Keep responses natural, professional, and focused on helping the calle
                     >
                       Save
                     </button>
+                    <button
+                      onClick={() => {
+                        webhookService.testConnection();
+                        alert('Test webhook sent! Check your Railway logs.');
+                      }}
+                      className="btn-secondary"
+                    >
+                      Test
+                    </button>
                   </div>
                 </div>
 

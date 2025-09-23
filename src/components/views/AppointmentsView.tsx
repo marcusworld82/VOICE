@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Calendar, Plus, Clock, User, CheckCircle, AlertCircle, Filter } from 'lucide-react';
+import { webhookService } from '../../services/webhookService';
 
 interface Appointment {
   id: string;
@@ -122,6 +123,18 @@ export default function AppointmentsView() {
           <button 
             onClick={() => console.log('New Appointment clicked')}
             className="btn-primary flex items-center space-x-2"
+              // In a real app, this would open a modal or form
+              // For now, we'll simulate creating an appointment
+              const newAppointment = {
+                id: Date.now().toString(),
+                client: { name: 'New Client', phone: '+1 (555) 000-0000', email: 'new@email.com' },
+                service: 'Consultation',
+                datetime: new Date().toISOString(),
+                duration: 60,
+                status: 'scheduled' as const,
+                notes: 'New appointment created from dashboard'
+              };
+              webhookService.sendAppointmentBooked(newAppointment);
           >
             <Plus className="w-4 h-4" />
             <span>New Appointment</span>
@@ -266,11 +279,19 @@ export default function AppointmentsView() {
                       <button 
                         onClick={() => console.log('Confirm appointment for:', appointment.client.name)}
                         className="btn-primary text-xs"
+                          const confirmedAppointment = { ...appointment, status: 'confirmed' as const };
+                          webhookService.sendAppointmentConfirmed(confirmedAppointment);
                       >
                         <CheckCircle className="w-3 h-3 mr-1" />
                         Confirm
                       </button>
                       <button 
+                          const oldDateTime = appointment.datetime;
+                          const rescheduledAppointment = { 
+                            ...appointment, 
+                            datetime: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString() // Next day
+                          };
+                          webhookService.sendAppointmentRescheduled(rescheduledAppointment, oldDateTime);
                         onClick={() => console.log('Reschedule appointment for:', appointment.client.name)}
                         className="btn-secondary text-xs"
                       >

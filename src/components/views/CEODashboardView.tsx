@@ -1,5 +1,6 @@
 import React from 'react';
 import { Phone, Calendar, DollarSign, Clock, MessageSquare, TrendingUp, Users, CheckCircle } from 'lucide-react';
+import { webhookService } from '../../services/webhookService';
 
 export default function CEODashboardView() {
   // Mock data for CEO dashboard
@@ -164,7 +165,27 @@ export default function CEODashboardView() {
         <div className="card p-6">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-lg font-semibold text-gray-900">Recent Activity</h2>
-            <button className="text-blue-600 text-sm font-medium hover:text-blue-700">View All</button>
+            <button 
+              onClick={() => {
+                console.log('View All clicked');
+                // Send analytics data when viewing all activity
+                const metrics = {
+                  totalCalls: callStats.total,
+                  completedCalls: callStats.completed,
+                  missedCalls: callStats.missed,
+                  totalAppointments: appointmentStats.today,
+                  confirmedAppointments: Math.floor(appointmentStats.today * 0.8),
+                  pendingAppointments: Math.floor(appointmentStats.today * 0.2),
+                  totalRevenue: revenueStats.today,
+                  totalConversions: Math.floor(appointmentStats.today * 0.6),
+                  conversionRate: revenueStats.conversionRate
+                };
+                webhookService.sendDailyMetrics(metrics);
+              }}
+              className="text-blue-600 text-sm font-medium hover:text-blue-700"
+            >
+              View All
+            </button>
           </div>
           
           <div className="space-y-4">
@@ -202,13 +223,19 @@ export default function CEODashboardView() {
           
           <div className="mt-6 flex items-center space-x-2">
             <button 
-              onClick={() => console.log('Week view selected')}
+              onClick={() => {
+                console.log('Week view selected');
+                // Could send view preference update
+              }}
               className="btn-secondary text-sm"
             >
               Week
             </button>
             <button 
-              onClick={() => console.log('Month view selected')}
+              onClick={() => {
+                console.log('Month view selected');
+                // Could send view preference update
+              }}
               className="btn-primary text-sm"
             >
               Month
