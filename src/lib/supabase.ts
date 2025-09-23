@@ -65,6 +65,24 @@ export interface Database {
         Insert: Omit<Database['public']['Tables']['clients']['Row'], 'id' | 'created_at'>;
         Update: Partial<Database['public']['Tables']['clients']['Insert']>;
       };
+      contacts: {
+        Row: {
+          id: string;
+          tenant_id: string;
+          full_name: string | null;
+          phone: string | null;
+          email: string | null;
+          tags: string[] | null;
+          first_seen_at: string | null;
+          last_seen_at: string | null;
+          insurance_provider: string | null;
+          questions_concerns: string | null;
+          legal_matter_type: 'criminal' | 'dui' | 'personal_injury' | 'other' | null;
+          urgency_level: 'low' | 'medium' | 'high' | 'emergency' | null;
+        };
+        Insert: Omit<Database['public']['Tables']['contacts']['Row'], 'id'>;
+        Update: Partial<Database['public']['Tables']['contacts']['Insert']>;
+      };
       follow_ups: {
         Row: {
           id: string;
@@ -93,6 +111,19 @@ export interface Database {
           currency: string;
           business_hours: string;
           business_location: string;
+          address: string | null;
+          phone: string | null;
+          website: string | null;
+          support_emails: string[] | null;
+          appointment_duration_minutes: number | null;
+          advance_booking_min_hours: number | null;
+          advance_booking_max_days: number | null;
+          emergency_protocol_text: string | null;
+          payment_policy_text: string | null;
+          cancellation_policy_text: string | null;
+          free_consultation_offered: boolean | null;
+          contact_form_url: string | null;
+          faqs: any | null;
           created_at: string;
           updated_at: string;
         };

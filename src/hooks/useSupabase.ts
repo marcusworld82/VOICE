@@ -111,6 +111,41 @@ export const dbService = {
     return data;
   },
 
+  // Contacts (for HMW Law retail AI)
+  async createContact(contactData: any) {
+    const { tenantSlug } = loadConfig();
+    const { data, error } = await supabase
+      .from('contacts')
+      .insert({ ...contactData, tenant_id: tenantSlug })
+      .select()
+      .single();
+    
+    if (error) throw error;
+    return data;
+  },
+
+  async getContacts(limit = 100) {
+    const { data, error } = await supabase
+      .from('contacts')
+      .select('*')
+      .order('first_seen_at', { ascending: false })
+      .limit(limit);
+    
+    if (error) throw error;
+    return data;
+  },
+
+  async updateContact(id: string, updates: any) {
+    const { data, error } = await supabase
+      .from('contacts')
+      .update(updates)
+      .eq('id', id)
+      .select()
+      .single();
+    
+    if (error) throw error;
+    return data;
+  },
   async getClients(limit = 100) {
     const { data, error } = await supabase
       .from('clients')
