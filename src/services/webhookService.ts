@@ -64,10 +64,12 @@ interface WebhookPayload {
 }
 
 class WebhookService {
-  private webhookUrl = 'https://primary-production-2c5d.up.railway.app/webhook/4fe15a31-6365-4b96-a3d5-3b02bbe3d31a';
+  private webhookUrl: string;
   private tenantSlug: string;
 
   constructor() {
+    // Get webhook URL from environment variable
+    this.webhookUrl = import.meta.env.VITE_WEBHOOK_SERVICE_URL || '';
     // Get tenant slug from config
     const config = this.loadConfig();
     this.tenantSlug = config.tenantSlug || 'default';
@@ -87,6 +89,12 @@ class WebhookService {
 
   private async sendWebhook(payload: WebhookPayload): Promise<boolean> {
     try {
+      // Skip webhook if URL is not configured
+      if (!this.webhookUrl) {
+        console.warn('Webhook URL not configured, skipping webhook:', payload.event);
+        return false;
+      }
+
       const response = await fetch(this.webhookUrl, {
         method: 'POST',
         headers: {
