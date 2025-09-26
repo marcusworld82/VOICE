@@ -39,27 +39,27 @@ export default function CEODashboardView() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 overflow-x-hidden">
       <Header 
         title="Dashboard Overview" 
         subtitle="Welcome back! Here's what's happening with your AI receptionist today." 
       />
       
-      <div className="p-4 lg:p-8">
+      <div className="p-3 sm:p-4 lg:p-6 xl:p-8 max-w-full">
         {/* Key Metrics */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mb-6 lg:mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6 mb-4 sm:mb-6 lg:mb-8">
           {/* Call Tracking */}
           <div className="metric-card">
-            <div className="flex items-center justify-between mb-4">
-              <div className="w-10 h-10 bg-blue-100 dark:bg-blue-900/20 rounded-lg flex items-center justify-center">
-                <Phone className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+            <div className="flex items-center justify-between mb-3 sm:mb-4">
+              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-blue-100 dark:bg-blue-900/20 rounded-lg flex items-center justify-center">
+                <Phone className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 dark:text-blue-400" />
               </div>
-              <span className="text-sm text-gray-500 dark:text-gray-400">Today</span>
+              <span className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">Today</span>
             </div>
-            <div className="space-y-2">
-              <h3 className="text-2xl font-bold text-gray-900 dark:text-white">{callStats.total}</h3>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Total Calls</p>
-              <div className="flex flex-wrap items-center gap-2 text-xs">
+            <div className="space-y-1 sm:space-y-2">
+              <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">{callStats.total}</h3>
+              <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Total Calls</p>
+              <div className="flex flex-wrap items-center gap-1 sm:gap-2 text-xs">
                 <span className="text-green-600 dark:text-green-400">{callStats.completed} completed</span>
                 <span className="text-red-600 dark:text-red-400">{callStats.missed} missed</span>
                 <span className="text-yellow-600 dark:text-yellow-400">{callStats.ongoing} ongoing</span>
@@ -69,16 +69,16 @@ export default function CEODashboardView() {
 
           {/* Appointments */}
           <div className="metric-card">
-            <div className="flex items-center justify-between mb-4">
-              <div className="w-10 h-10 bg-green-100 dark:bg-green-900/20 rounded-lg flex items-center justify-center">
-                <Calendar className="w-5 h-5 text-green-600 dark:text-green-400" />
+            <div className="flex items-center justify-between mb-3 sm:mb-4">
+              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-green-100 dark:bg-green-900/20 rounded-lg flex items-center justify-center">
+                <Calendar className="w-4 h-4 sm:w-5 sm:h-5 text-green-600 dark:text-green-400" />
               </div>
-              <span className="text-sm text-gray-500 dark:text-gray-400">This Week</span>
+              <span className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">This Week</span>
             </div>
-            <div className="space-y-2">
-              <h3 className="text-2xl font-bold text-gray-900 dark:text-white">{appointmentStats.thisWeek}</h3>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Appointments</p>
-              <div className="flex flex-wrap items-center gap-2 text-xs">
+            <div className="space-y-1 sm:space-y-2">
+              <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">{appointmentStats.thisWeek}</h3>
+              <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Appointments</p>
+              <div className="flex flex-wrap items-center gap-1 sm:gap-2 text-xs">
                 <span className="text-blue-600 dark:text-blue-400">{appointmentStats.today} today</span>
                 <span className="text-gray-600 dark:text-gray-400">{appointmentStats.thisMonth} this month</span>
               </div>
@@ -87,16 +87,16 @@ export default function CEODashboardView() {
 
           {/* Revenue */}
           <div className="metric-card">
-            <div className="flex items-center justify-between mb-4">
-              <div className="w-10 h-10 bg-yellow-100 dark:bg-yellow-900/20 rounded-lg flex items-center justify-center">
-                <DollarSign className="w-5 h-5 text-yellow-600 dark:text-yellow-400" />
+            <div className="flex items-center justify-between mb-3 sm:mb-4">
+              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-yellow-100 dark:bg-yellow-900/20 rounded-lg flex items-center justify-center">
+                <DollarSign className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-600 dark:text-yellow-400" />
               </div>
-              <span className="text-sm text-gray-500 dark:text-gray-400">This Month</span>
+              <span className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">This Month</span>
             </div>
-            <div className="space-y-2">
-              <h3 className="text-2xl font-bold text-gray-900 dark:text-white">${revenueStats.thisMonth.toLocaleString()}</h3>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Revenue</p>
-              <div className="flex flex-wrap items-center gap-2 text-xs">
+            <div className="space-y-1 sm:space-y-2">
+              <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">${revenueStats.thisMonth.toLocaleString()}</h3>
+              <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Revenue</p>
+              <div className="flex flex-wrap items-center gap-1 sm:gap-2 text-xs">
                 <span className="text-green-600 dark:text-green-400">{revenueStats.conversionRate}% conversion</span>
                 <span className="text-gray-600 dark:text-gray-400">${revenueStats.today} today</span>
               </div>
@@ -105,16 +105,16 @@ export default function CEODashboardView() {
 
           {/* Follow-ups */}
           <div className="metric-card">
-            <div className="flex items-center justify-between mb-4">
-              <div className="w-10 h-10 bg-purple-100 dark:bg-purple-900/20 rounded-lg flex items-center justify-center">
-                <Clock className="w-5 h-5 text-purple-600 dark:text-purple-400" />
+            <div className="flex items-center justify-between mb-3 sm:mb-4">
+              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-purple-100 dark:bg-purple-900/20 rounded-lg flex items-center justify-center">
+                <Clock className="w-4 h-4 sm:w-5 sm:h-5 text-purple-600 dark:text-purple-400" />
               </div>
-              <span className="text-sm text-gray-500 dark:text-gray-400">Active</span>
+              <span className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">Active</span>
             </div>
-            <div className="space-y-2">
-              <h3 className="text-2xl font-bold text-gray-900 dark:text-white">{followUpStats.pending}</h3>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Pending Follow-ups</p>
-              <div className="flex flex-wrap items-center gap-2 text-xs">
+            <div className="space-y-1 sm:space-y-2">
+              <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">{followUpStats.pending}</h3>
+              <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Pending Follow-ups</p>
+              <div className="flex flex-wrap items-center gap-1 sm:gap-2 text-xs">
                 <span className="text-blue-600 dark:text-blue-400">{followUpStats.sent} sent</span>
                 <span className="text-green-600 dark:text-green-400">{followUpStats.responded} responded</span>
               </div>
@@ -123,49 +123,49 @@ export default function CEODashboardView() {
         </div>
 
         {/* Charts and Activity */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
           {/* Performance Trend */}
-          <div className="card p-4 lg:p-6">
+          <div className="card p-3 sm:p-4 lg:p-6">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Performance Trend</h2>
+              <h2 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white">Performance Trend</h2>
               <div className="flex items-center space-x-2">
-                <button className="btn-secondary text-sm">Week</button>
-                <button className="btn-primary text-sm">Month</button>
+                <button className="btn-secondary text-xs sm:text-sm px-2 sm:px-3 py-1 sm:py-2">Week</button>
+                <button className="btn-primary text-xs sm:text-sm px-2 sm:px-3 py-1 sm:py-2">Month</button>
               </div>
             </div>
             
             {/* Simple chart placeholder */}
-            <div className="space-y-4">
+            <div className="space-y-3 sm:space-y-4">
               <div className="flex items-center justify-between">
-                <span className="text-sm text-gray-600 dark:text-gray-400">Calls → Bookings</span>
-                <span className="text-sm font-medium text-gray-900 dark:text-white">42.8%</span>
+                <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Calls → Bookings</span>
+                <span className="text-xs sm:text-sm font-medium text-gray-900 dark:text-white">42.8%</span>
               </div>
-              <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                <div className="bg-blue-600 h-2 rounded-full" style={{ width: '42.8%' }}></div>
+              <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5 sm:h-2">
+                <div className="bg-blue-600 h-1.5 sm:h-2 rounded-full" style={{ width: '42.8%' }}></div>
               </div>
               
               <div className="flex items-center justify-between">
-                <span className="text-sm text-gray-600 dark:text-gray-400">Bookings → Revenue</span>
-                <span className="text-sm font-medium text-gray-900 dark:text-white">78.5%</span>
+                <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Bookings → Revenue</span>
+                <span className="text-xs sm:text-sm font-medium text-gray-900 dark:text-white">78.5%</span>
               </div>
-              <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                <div className="bg-green-600 h-2 rounded-full" style={{ width: '78.5%' }}></div>
+              <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5 sm:h-2">
+                <div className="bg-green-600 h-1.5 sm:h-2 rounded-full" style={{ width: '78.5%' }}></div>
               </div>
               
               <div className="flex items-center justify-between">
-                <span className="text-sm text-gray-600 dark:text-gray-400">Overall Conversion</span>
-                <span className="text-sm font-medium text-gray-900 dark:text-white">33.6%</span>
+                <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Overall Conversion</span>
+                <span className="text-xs sm:text-sm font-medium text-gray-900 dark:text-white">33.6%</span>
               </div>
-              <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                <div className="bg-purple-600 h-2 rounded-full" style={{ width: '33.6%' }}></div>
+              <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5 sm:h-2">
+                <div className="bg-purple-600 h-1.5 sm:h-2 rounded-full" style={{ width: '33.6%' }}></div>
               </div>
             </div>
           </div>
 
           {/* Multi-Channel Activity */}
-          <div className="card p-4 lg:p-6">
+          <div className="card p-3 sm:p-4 lg:p-6">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Recent Activity</h2>
+              <h2 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white">Recent Activity</h2>
               <button 
                 onClick={() => {
                   console.log('View All clicked');
@@ -183,7 +183,7 @@ export default function CEODashboardView() {
                   };
                   webhookService.sendDailyMetrics(metrics);
                 }}
-                className="text-blue-600 dark:text-blue-400 text-sm font-medium hover:text-blue-700 dark:hover:text-blue-300"
+                className="text-blue-600 dark:text-blue-400 text-xs sm:text-sm font-medium hover:text-blue-700 dark:hover:text-blue-300"
               >
                 View All
               </button>
@@ -191,8 +191,8 @@ export default function CEODashboardView() {
             
             <div className="space-y-4">
               {recentActivity.map((activity) => (
-                <div key={activity.id} className="flex items-center space-x-4">
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                <div key={activity.id} className="flex items-center space-x-2 sm:space-x-4">
+                  <div className={`w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center ${
                     activity.type === 'call' ? 'bg-blue-100 dark:bg-blue-900/20' :
                     activity.type === 'sms' ? 'bg-green-100 dark:bg-green-900/20' : 'bg-purple-100 dark:bg-purple-900/20'
                   }`}>
@@ -202,20 +202,20 @@ export default function CEODashboardView() {
                         activity.type === 'sms' ? 'text-green-600 dark:text-green-400' : 'text-purple-600 dark:text-purple-400'
                       }`} />
                     ) : activity.type === 'sms' ? (
-                      <MessageSquare className="w-4 h-4 text-green-600 dark:text-green-400" />
+                      <MessageSquare className="w-3 h-3 sm:w-4 sm:h-4 text-green-600 dark:text-green-400" />
                     ) : (
-                      <MessageSquare className="w-4 h-4 text-purple-600 dark:text-purple-400" />
+                      <MessageSquare className="w-3 h-3 sm:w-4 sm:h-4 text-purple-600 dark:text-purple-400" />
                     )}
                   </div>
-                  <div className="flex-1">
-                    <p className="text-sm font-medium text-gray-900 dark:text-white">{activity.client}</p>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-xs sm:text-sm font-medium text-gray-900 dark:text-white truncate">{activity.client}</p>
                     <p className="text-xs text-gray-500 dark:text-gray-400">{activity.type.toUpperCase()} • {activity.time}</p>
                   </div>
                   <span className={`status-badge ${
                     activity.status === 'completed' ? 'status-success' :
                     activity.status === 'sent' || activity.status === 'delivered' ? 'status-info' :
                     'status-error'
-                  }`}>
+                  } text-xs`}>
                     {activity.status}
                   </span>
                 </div>
@@ -228,7 +228,7 @@ export default function CEODashboardView() {
                   console.log('Week view selected');
                   // Could send view preference update
                 }}
-                className="btn-secondary text-sm"
+                className="btn-secondary text-xs sm:text-sm px-2 sm:px-3 py-1 sm:py-2"
               >
                 Week
               </button>
@@ -237,7 +237,7 @@ export default function CEODashboardView() {
                   console.log('Month view selected');
                   // Could send view preference update
                 }}
-                className="btn-primary text-sm"
+                className="btn-primary text-xs sm:text-sm px-2 sm:px-3 py-1 sm:py-2"
               >
                 Month
               </button>
