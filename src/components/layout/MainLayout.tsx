@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSidebar } from '../../context/SidebarContext';
 import Sidebar from './Sidebar';
 import CEODashboardView from '../views/CEODashboardView';
 import AgentsView from '../views/AgentsView';
@@ -13,6 +14,7 @@ export type NavigationItem = 'dashboard' | 'agents' | 'analytics' | 'appointment
 export default function MainLayout() {
   const [activeView, setActiveView] = useState<NavigationItem>('dashboard');
   const { user } = useAuth();
+  const { isOpen } = useSidebar();
 
   const renderView = () => {
     switch (activeView) {
@@ -34,9 +36,11 @@ export default function MainLayout() {
   };
 
   return (
-    <div className="flex h-screen bg-gray-50">
+    <div className="flex h-screen bg-gray-50 dark:bg-gray-900">
       <Sidebar activeView={activeView} onViewChange={setActiveView} />
-      <main className="flex-1 overflow-auto">
+      <main className={`flex-1 overflow-auto transition-all duration-300 ${
+        isOpen ? 'lg:ml-0' : 'lg:ml-0'
+      }`}>
         {renderView()}
       </main>
     </div>
