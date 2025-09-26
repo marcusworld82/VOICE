@@ -6,6 +6,7 @@ import { SidebarProvider } from './context/SidebarContext';
 import LoginScreen from './components/auth/LoginScreen';
 import MainLayout from './components/layout/MainLayout';
 import { useAuth } from './hooks/useAuth';
+import SettingsFab from "./components/SettingsFab";
 import SupabaseStatus from './components/SupabaseStatus';
 
 function AppContent() {
@@ -34,6 +35,7 @@ function App() {
         <DashboardProvider>
           <SidebarProvider>
             <AppContent />
+            <SettingsFab />
           </SidebarProvider>
         </DashboardProvider>
       </AuthProvider>

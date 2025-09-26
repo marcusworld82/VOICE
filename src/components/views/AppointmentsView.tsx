@@ -17,7 +17,7 @@ interface Appointment {
 }
 
 export default function AppointmentsView() {
-  const [viewMode, setViewMode] = useState<'day' | 'week' | 'month'>('day');
+  const [viewMode, setViewMode] = useState<'day' | 'week' | 'month'>('week');
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
 
   // Mock appointments data
@@ -66,33 +66,9 @@ export default function AppointmentsView() {
     }
   ];
 
-  const getFilteredAppointments = () => {
-    const today = new Date(selectedDate);
-    const startOfWeek = new Date(today);
-    startOfWeek.setDate(today.getDate() - today.getDay());
-    const endOfWeek = new Date(startOfWeek);
-    endOfWeek.setDate(startOfWeek.getDate() + 6);
-    
-    const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
-    const endOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
-    
-    return appointments.filter(apt => {
-      const aptDate = new Date(apt.datetime);
-      switch (viewMode) {
-        case 'day':
-          return apt.datetime.startsWith(selectedDate);
-        case 'week':
-          return aptDate >= startOfWeek && aptDate <= endOfWeek;
-        case 'month':
-          return aptDate >= startOfMonth && aptDate <= endOfMonth;
-        default:
-          return apt.datetime.startsWith(selectedDate);
-      }
-    });
-  };
-  
-  const filteredAppointments = getFilteredAppointments();
-  const todayAppointments = appointments.filter(apt => apt.datetime.startsWith(selectedDate));
+  const todayAppointments = appointments.filter(apt => 
+    apt.datetime.startsWith(selectedDate)
+  );
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -127,7 +103,7 @@ export default function AppointmentsView() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4 sm:mb-6 lg:mb-8">
         <div>
           <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-1 sm:mb-2">Appointments</h1>
-          <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">Manage your appointment calendar and bookings</p>
+          <p className="text-sm sm:text-base text-gray-600">Manage your appointment calendar and bookings</p>
         </div>
         
         <div className="flex flex-wrap items-center gap-2 sm:gap-3 lg:gap-4">
@@ -180,8 +156,8 @@ export default function AppointmentsView() {
               <Calendar className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600" />
             </div>
           </div>
-          <h3 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 dark:text-white mb-1">{filteredAppointments.length}</h3>
-          <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 capitalize">{viewMode} Appointments</p>
+          <h3 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 mb-1">{todayAppointments.length}</h3>
+          <p className="text-xs sm:text-sm text-gray-600">Today's Appointments</p>
         </div>
 
         <div className="metric-card">
@@ -191,9 +167,9 @@ export default function AppointmentsView() {
             </div>
           </div>
           <h3 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 mb-1">
-            {filteredAppointments.filter(a => a.status === 'confirmed').length}
+            {appointments.filter(a => a.status === 'confirmed').length}
           </h3>
-          <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Confirmed</p>
+          <p className="text-xs sm:text-sm text-gray-600">Confirmed</p>
         </div>
 
         <div className="metric-card">
@@ -203,9 +179,9 @@ export default function AppointmentsView() {
             </div>
           </div>
           <h3 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 mb-1">
-            {filteredAppointments.filter(a => a.status === 'scheduled').length}
+            {appointments.filter(a => a.status === 'scheduled').length}
           </h3>
-          <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Pending</p>
+          <p className="text-xs sm:text-sm text-gray-600">Pending</p>
         </div>
 
         <div className="metric-card">
@@ -214,13 +190,8 @@ export default function AppointmentsView() {
               <User className="w-4 h-4 sm:w-5 sm:h-5 text-purple-600" />
             </div>
           </div>
-          <h3 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 dark:text-white mb-1">
-            {viewMode === 'day' ? todayAppointments.length : 
-             viewMode === 'week' ? 67 : 284}
-          </h3>
-          <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
-            {viewMode === 'day' ? 'Today' : viewMode === 'week' ? 'This Week' : 'This Month'}
-          </p>
+          <h3 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 mb-1">67</h3>
+          <p className="text-xs sm:text-sm text-gray-600">This Week</p>
         </div>
       </div>
 
@@ -228,9 +199,9 @@ export default function AppointmentsView() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
         {/* Calendar View */}
         <div className="lg:col-span-2">
-          <div className="bg-white dark:bg-gray-800 rounded-lg p-3 sm:p-4 lg:p-6 border border-gray-200 dark:border-gray-700">
+          <div className="card p-3 sm:p-4 lg:p-6">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 mb-4 sm:mb-6">
-              <h2 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white">Calendar View ({viewMode})</h2>
+              <h2 className="text-base sm:text-lg font-semibold text-gray-900">Calendar View</h2>
               <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-4">
                 <input
                   type="date"
@@ -253,7 +224,7 @@ export default function AppointmentsView() {
               {Array.from({ length: 10 }, (_, i) => {
                 const hour = 9 + i;
                 const timeSlot = `${hour}:00`;
-                const appointment = filteredAppointments.find(apt => {
+                const appointment = appointments.find(apt => {
                   const aptTime = new Date(apt.datetime);
                   return aptTime.getHours() === hour && apt.datetime.startsWith(selectedDate);
                 });
@@ -265,12 +236,12 @@ export default function AppointmentsView() {
                     </div>
                     <div className="flex-1">
                       {appointment ? (
-                        <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-lg p-2 sm:p-3 lg:p-4">
+                        <div className="bg-blue-50 border border-blue-200 rounded-lg p-2 sm:p-3 lg:p-4">
                           <div className="flex items-center justify-between">
                             <div>
-                              <h4 className="text-sm sm:text-base font-medium text-gray-900 dark:text-white">{appointment.client.name}</h4>
-                              <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">{appointment.service}</p>
-                              <p className="text-xs text-gray-500 dark:text-gray-400">{appointment.duration} minutes</p>
+                              <h4 className="text-sm sm:text-base font-medium text-gray-900">{appointment.client.name}</h4>
+                              <p className="text-xs sm:text-sm text-gray-600">{appointment.service}</p>
+                              <p className="text-xs text-gray-500">{appointment.duration} minutes</p>
                             </div>
                             <span className={`status-badge ${getStatusColor(appointment.status)}`}>
                               {appointment.status}
@@ -278,7 +249,7 @@ export default function AppointmentsView() {
                           </div>
                         </div>
                       ) : (
-                        <div className="text-gray-400 dark:text-gray-500 text-xs sm:text-sm italic">Available</div>
+                        <div className="text-gray-400 text-xs sm:text-sm italic">Available</div>
                       )}
                     </div>
                   </div>
@@ -291,30 +262,24 @@ export default function AppointmentsView() {
         {/* Appointment Details */}
         <div className="space-y-6">
           {/* Today's Appointments */}
-          <div className="bg-white dark:bg-gray-800 rounded-lg p-3 sm:p-4 lg:p-6 border border-gray-200 dark:border-gray-700">
-            <h2 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white mb-3 sm:mb-4">
-              {viewMode === 'day' ? "Today's Schedule" : 
-               viewMode === 'week' ? "This Week's Schedule" : "This Month's Schedule"}
-            </h2>
+          <div className="card p-3 sm:p-4 lg:p-6">
+            <h2 className="text-base sm:text-lg font-semibold text-gray-900 mb-3 sm:mb-4">Today's Schedule</h2>
             <div className="space-y-3 sm:space-y-4">
-              {filteredAppointments.length > 0 ? (
-                filteredAppointments.slice(0, 5).map((appointment) => (
-                  <div key={appointment.id} className="p-2 sm:p-3 lg:p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+              {todayAppointments.length > 0 ? (
+                todayAppointments.map((appointment) => (
+                  <div key={appointment.id} className="p-2 sm:p-3 lg:p-4 bg-gray-50 rounded-lg">
                     <div className="flex items-start justify-between mb-1 sm:mb-2">
                       <div>
-                        <h4 className="text-sm sm:text-base font-medium text-gray-900 dark:text-white">{appointment.client.name}</h4>
-                        <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
-                          {viewMode === 'day' ? formatTime(appointment.datetime) : 
-                           `${formatDate(appointment.datetime)} ${formatTime(appointment.datetime)}`}
-                        </p>
+                        <h4 className="text-sm sm:text-base font-medium text-gray-900">{appointment.client.name}</h4>
+                        <p className="text-xs sm:text-sm text-gray-600">{formatTime(appointment.datetime)}</p>
                       </div>
                       <span className={`status-badge ${getStatusColor(appointment.status)}`}>
                         {appointment.status}
                       </span>
                     </div>
-                    <p className="text-xs sm:text-sm text-gray-700 dark:text-gray-300 mb-1 sm:mb-2">{appointment.service}</p>
+                    <p className="text-xs sm:text-sm text-gray-700 mb-1 sm:mb-2">{appointment.service}</p>
                     {appointment.notes && (
-                      <p className="text-xs text-gray-500 dark:text-gray-400 italic">{appointment.notes}</p>
+                      <p className="text-xs text-gray-500 italic">{appointment.notes}</p>
                     )}
                     <div className="flex items-center space-x-1 sm:space-x-2 mt-2 sm:mt-3">
                       <button 
@@ -347,25 +312,23 @@ export default function AppointmentsView() {
                   </div>
                 ))
               ) : (
-                <p className="text-gray-500 dark:text-gray-400 text-xs sm:text-sm">
-                  No appointments scheduled for {viewMode === 'day' ? 'today' : `this ${viewMode}`}
-                </p>
+                <p className="text-gray-500 text-xs sm:text-sm">No appointments scheduled for today</p>
               )}
             </div>
           </div>
 
           {/* Upcoming Appointments */}
-          <div className="bg-white dark:bg-gray-800 rounded-lg p-3 sm:p-4 lg:p-6 border border-gray-200 dark:border-gray-700">
-            <h2 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white mb-3 sm:mb-4">Upcoming</h2>
+          <div className="card p-3 sm:p-4 lg:p-6">
+            <h2 className="text-base sm:text-lg font-semibold text-gray-900 mb-3 sm:mb-4">Upcoming</h2>
             <div className="space-y-3">
               {appointments.filter(apt => !apt.datetime.startsWith(selectedDate)).slice(0, 3).map((appointment) => (
-                <div key={appointment.id} className="flex items-center space-x-2 sm:space-x-3 p-2 sm:p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                  <div className="w-6 h-6 sm:w-8 sm:h-8 bg-blue-100 dark:bg-blue-900/20 rounded-full flex items-center justify-center">
-                    <User className="w-3 h-3 sm:w-4 sm:h-4 text-blue-600 dark:text-blue-400" />
+                <div key={appointment.id} className="flex items-center space-x-2 sm:space-x-3 p-2 sm:p-3 bg-gray-50 rounded-lg">
+                  <div className="w-6 h-6 sm:w-8 sm:h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                    <User className="w-3 h-3 sm:w-4 sm:h-4 text-blue-600" />
                   </div>
                   <div className="flex-1">
-                    <p className="font-medium text-gray-900 dark:text-white text-xs sm:text-sm">{appointment.client.name}</p>
-                    <p className="text-xs text-gray-500 dark:text-gray-400">
+                    <p className="font-medium text-gray-900 text-xs sm:text-sm">{appointment.client.name}</p>
+                    <p className="text-xs text-gray-500">
                       {formatDate(appointment.datetime)} • {formatTime(appointment.datetime)}
                     </p>
                   </div>
@@ -378,17 +341,17 @@ export default function AppointmentsView() {
           </div>
 
           {/* Google Calendar Sync */}
-          <div className="bg-white dark:bg-gray-800 rounded-lg p-3 sm:p-4 lg:p-6 border border-gray-200 dark:border-gray-700">
+          <div className="card p-3 sm:p-4 lg:p-6">
             <div className="flex items-center space-x-2 sm:space-x-3 mb-3 sm:mb-4">
-              <div className="w-6 h-6 sm:w-8 sm:h-8 bg-green-100 dark:bg-green-900/20 rounded-full flex items-center justify-center">
-                <CheckCircle className="w-3 h-3 sm:w-4 sm:h-4 text-green-600 dark:text-green-400" />
+              <div className="w-6 h-6 sm:w-8 sm:h-8 bg-green-100 rounded-full flex items-center justify-center">
+                <CheckCircle className="w-3 h-3 sm:w-4 sm:h-4 text-green-600" />
               </div>
               <div>
-                <h3 className="text-sm sm:text-base font-medium text-gray-900 dark:text-white">Google Calendar</h3>
-                <p className="text-xs text-gray-500 dark:text-gray-400">Synced via n8n workflow</p>
+                <h3 className="text-sm sm:text-base font-medium text-gray-900">Google Calendar</h3>
+                <p className="text-xs text-gray-500">Synced via n8n workflow</p>
               </div>
             </div>
-            <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-2 sm:mb-3">
+            <p className="text-xs sm:text-sm text-gray-600 mb-2 sm:mb-3">
               Appointments are automatically synced with your Google Calendar in real-time.
             </p>
             <button 
