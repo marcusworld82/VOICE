@@ -8,6 +8,7 @@ import AppointmentsView from '../views/AppointmentsView';
 import ClientsView from '../views/ClientsView';
 import SettingsView from '../views/SettingsView';
 import { useAuth } from '../../hooks/useAuth';
+import SettingsFab from '../SettingsFab';
 
 export type NavigationItem = 'dashboard' | 'agents' | 'analytics' | 'appointments' | 'clients' | 'settings';
 
@@ -42,6 +43,7 @@ export default function MainLayout() {
         isOpen ? 'lg:ml-0' : 'lg:ml-0'
       }`}>
         {renderView()}
+        <SettingsFab currentView={activeView} />
       </main>
     </div>
   );
