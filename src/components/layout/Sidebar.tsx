@@ -56,7 +56,7 @@ export default function Sidebar({ activeView, onViewChange }: SidebarProps) {
       } ${!isOpen ? 'lg:w-16' : 'lg:w-64'}`}>
         
         {/* Header */}
-        <div className="p-4 lg:p-6 border-b border-gray-200 dark:border-gray-700">
+        <div className="p-4 lg:p-6 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
           <div className="flex items-center justify-between">
             <div className={`flex items-center space-x-3 ${!isOpen ? 'lg:justify-center' : ''}`}>
               <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
@@ -81,7 +81,7 @@ export default function Sidebar({ activeView, onViewChange }: SidebarProps) {
         </div>
 
         {/* Navigation */}
-        <nav className="flex-1 p-4 space-y-2 overflow-y-auto">
+        <nav className="flex-1 p-4 space-y-2 overflow-y-auto bg-white dark:bg-gray-800">
           {navigationItems.map((item) => {
             const Icon = item.icon;
             const isActive = activeView === item.id;
@@ -109,14 +109,14 @@ export default function Sidebar({ activeView, onViewChange }: SidebarProps) {
         </nav>
 
         {/* Theme Toggle */}
-        <div className="p-4 border-t border-gray-200 dark:border-gray-700">
+        <div className="p-4 border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
           <button
             onClick={toggleTheme}
             className={`sidebar-item w-full mb-3 ${!isOpen ? 'lg:justify-center lg:px-2' : ''}`}
             title={!isOpen ? (isDark ? 'Light Mode' : 'Dark Mode') : undefined}
           >
             {isDark ? <Sun className="w-5 h-5 flex-shrink-0" /> : <Moon className="w-5 h-5 flex-shrink-0" />}
-            {(isOpen) && <span>{isDark ? 'Light Mode' : 'Dark Mode'}</span>}
+            {(isOpen) && <span className="text-gray-900 dark:text-white">{isDark ? 'Light Mode' : 'Dark Mode'}</span>}
           </button>
           
           {/* User Info */}
@@ -143,7 +143,7 @@ export default function Sidebar({ activeView, onViewChange }: SidebarProps) {
             title={!isOpen ? 'Sign Out' : undefined}
           >
             <LogOut className="w-4 h-4 flex-shrink-0" />
-            {(isOpen) && <span className="text-sm">Sign Out</span>}
+            {(isOpen) && <span className="text-sm text-red-600 dark:text-red-400">Sign Out</span>}
           </button>
         </div>
       </div>

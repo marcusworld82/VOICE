@@ -4,26 +4,39 @@ import { webhookService } from '../../services/webhookService';
 import Header from '../layout/Header';
 
 export default function CEODashboardView() {
+  const [timeframe, setTimeframe] = useState<'daily' | 'weekly' | 'monthly'>('weekly');
+  
   // Mock data for CEO dashboard
-  const callStats = {
-    completed: 28,
-    missed: 4,
-    ongoing: 2,
-    total: 34
+  const getCallStats = () => {
+    const baseStats = {
+      daily: { completed: 28, missed: 4, ongoing: 2, total: 34 },
+      weekly: { completed: 184, missed: 23, ongoing: 3, total: 210 },
+      monthly: { completed: 742, missed: 89, ongoing: 5, total: 836 }
+    };
+    return baseStats[timeframe];
   };
 
-  const appointmentStats = {
-    today: 12,
-    thisWeek: 67,
-    thisMonth: 284
+  const getAppointmentStats = () => {
+    const baseStats = {
+      daily: { today: 12, thisWeek: 67, thisMonth: 284 },
+      weekly: { today: 67, thisWeek: 284, thisMonth: 1156 },
+      monthly: { today: 284, thisWeek: 1156, thisMonth: 4624 }
+    };
+    return baseStats[timeframe];
   };
 
-  const revenueStats = {
-    today: 1850,
-    thisWeek: 12400,
-    thisMonth: 48600,
-    conversionRate: 42.8
+  const getRevenueStats = () => {
+    const baseStats = {
+      daily: { today: 1850, thisWeek: 12400, thisMonth: 48600, conversionRate: 42.8 },
+      weekly: { today: 12400, thisWeek: 48600, thisMonth: 194400, conversionRate: 45.2 },
+      monthly: { today: 48600, thisWeek: 194400, thisMonth: 777600, conversionRate: 47.1 }
+    };
+    return baseStats[timeframe];
   };
+
+  const callStats = getCallStats();
+  const appointmentStats = getAppointmentStats();
+  const revenueStats = getRevenueStats();
 
   const followUpStats = {
     pending: 8,
@@ -46,6 +59,22 @@ export default function CEODashboardView() {
       />
       
       <div className="p-3 sm:p-4 lg:p-6 xl:p-8 max-w-full">
+        {/* Time Filter */}
+        <div className="flex items-center justify-between mb-4 sm:mb-6 lg:mb-8">
+          <div></div>
+          <div className="flex items-center space-x-2">
+            {['daily', 'weekly', 'monthly'].map((period) => (
+              <button
+                key={period}
+                onClick={() => setTimeframe(period as 'daily' | 'weekly' | 'monthly')}
+                className={`${period === timeframe ? 'btn-primary' : 'btn-secondary'} text-xs sm:text-sm px-2 sm:px-3 py-1.5 sm:py-2`}
+              >
+                {period.charAt(0).toUpperCase() + period.slice(1)}
+              </button>
+            ))}
+          </div>
+        </div>
+        
         {/* Key Metrics */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6 mb-4 sm:mb-6 lg:mb-8">
           {/* Call Tracking */}
@@ -54,7 +83,7 @@ export default function CEODashboardView() {
               <div className="w-8 h-8 sm:w-10 sm:h-10 bg-blue-100 dark:bg-blue-900/20 rounded-lg flex items-center justify-center">
                 <Phone className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 dark:text-blue-400" />
               </div>
-              <span className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">Today</span>
+              <span className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 capitalize">{timeframe}</span>
             </div>
             <div className="space-y-1 sm:space-y-2">
               <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">{callStats.total}</h3>
@@ -73,10 +102,13 @@ export default function CEODashboardView() {
               <div className="w-8 h-8 sm:w-10 sm:h-10 bg-green-100 dark:bg-green-900/20 rounded-lg flex items-center justify-center">
                 <Calendar className="w-4 h-4 sm:w-5 sm:h-5 text-green-600 dark:text-green-400" />
               </div>
-              <span className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">This Week</span>
+              <span className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 capitalize">{timeframe}</span>
             </div>
             <div className="space-y-1 sm:space-y-2">
-              <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">{appointmentStats.thisWeek}</h3>
+              <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">
+                {timeframe === 'daily' ? appointmentStats.today : 
+                 timeframe === 'weekly' ? appointmentStats.thisWeek : appointmentStats.thisMonth}
+              </h3>
               <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Appointments</p>
               <div className="flex flex-wrap items-center gap-1 sm:gap-2 text-xs">
                 <span className="text-blue-600 dark:text-blue-400">{appointmentStats.today} today</span>
@@ -91,10 +123,13 @@ export default function CEODashboardView() {
               <div className="w-8 h-8 sm:w-10 sm:h-10 bg-yellow-100 dark:bg-yellow-900/20 rounded-lg flex items-center justify-center">
                 <DollarSign className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-600 dark:text-yellow-400" />
               </div>
-              <span className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">This Month</span>
+              <span className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 capitalize">{timeframe}</span>
             </div>
             <div className="space-y-1 sm:space-y-2">
-              <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">${revenueStats.thisMonth.toLocaleString()}</h3>
+              <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">
+                ${(timeframe === 'daily' ? revenueStats.today : 
+                   timeframe === 'weekly' ? revenueStats.thisWeek : revenueStats.thisMonth).toLocaleString()}
+              </h3>
               <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Revenue</p>
               <div className="flex flex-wrap items-center gap-1 sm:gap-2 text-xs">
                 <span className="text-green-600 dark:text-green-400">{revenueStats.conversionRate}% conversion</span>
@@ -125,13 +160,9 @@ export default function CEODashboardView() {
         {/* Charts and Activity */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
           {/* Performance Trend */}
-          <div className="card p-3 sm:p-4 lg:p-6">
+          <div className="bg-white dark:bg-gray-800 rounded-lg p-3 sm:p-4 lg:p-6 border border-gray-200 dark:border-gray-700">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white">Performance Trend</h2>
-              <div className="flex items-center space-x-2">
-                <button className="btn-secondary text-xs sm:text-sm px-2 sm:px-3 py-1 sm:py-2">Week</button>
-                <button className="btn-primary text-xs sm:text-sm px-2 sm:px-3 py-1 sm:py-2">Month</button>
-              </div>
+              <h2 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white">Performance Trend ({timeframe})</h2>
             </div>
             
             {/* Simple chart placeholder */}
@@ -163,7 +194,7 @@ export default function CEODashboardView() {
           </div>
 
           {/* Multi-Channel Activity */}
-          <div className="card p-3 sm:p-4 lg:p-6">
+          <div className="bg-white dark:bg-gray-800 rounded-lg p-3 sm:p-4 lg:p-6 border border-gray-200 dark:border-gray-700">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white">Recent Activity</h2>
               <button 
@@ -220,27 +251,6 @@ export default function CEODashboardView() {
                   </span>
                 </div>
               ))}
-            </div>
-            
-            <div className="mt-6 flex items-center space-x-2">
-              <button 
-                onClick={() => {
-                  console.log('Week view selected');
-                  // Could send view preference update
-                }}
-                className="btn-secondary text-xs sm:text-sm px-2 sm:px-3 py-1 sm:py-2"
-              >
-                Week
-              </button>
-              <button 
-                onClick={() => {
-                  console.log('Month view selected');
-                  // Could send view preference update
-                }}
-                className="btn-primary text-xs sm:text-sm px-2 sm:px-3 py-1 sm:py-2"
-              >
-                Month
-              </button>
             </div>
           </div>
         </div>

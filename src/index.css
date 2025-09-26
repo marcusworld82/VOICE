@@ -130,4 +130,15 @@ html, body {
   button, a, input, select, textarea {
     min-height: 44px;
   }
+  
+  /* Remove horizontal scrollbars on mobile */
+  * {
+    overflow-x: hidden !important;
+  }
+  
+  /* Ensure all containers fit within viewport */
+  .container, .card, .metric-card {
+    max-width: 100vw;
+    box-sizing: border-box;
+  }
 }
